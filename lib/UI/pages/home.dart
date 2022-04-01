@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kev_commerce/UI/pages/cart.dart';
+import 'package:kev_commerce/UI/pages/product_deteails.dart';
+import 'package:kev_commerce/UI/widget/product_card.dart';
 import 'package:kev_commerce/const/const_colors.dart';
 import 'package:kev_commerce/controllers/cart_controller.dart';
 
@@ -14,6 +17,9 @@ class HomeView extends StatelessWidget {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         title: const Text("Kev Commerce"),
+        actions: [IconButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (_)=> CartView()));
+        }, icon: Icon(Icons.shopping_cart_rounded))],
       ),
       body: Obx(() {
         return cartController.productList.isEmpty
@@ -29,60 +35,26 @@ class HomeView extends StatelessWidget {
                       margin: const EdgeInsets.all(10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      child: MaterialButton(
-                    onPressed: (){
-                      print("object");
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                    onTap: (){
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        // shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+                        context: context, builder: (_)=>Column(
+                        children: [
+                          SizedBox(height: MediaQuery.of(context).size.height*0.3,),
+                          Center(child: Container(
+                            margin: EdgeInsets.all(10),
+                            height: 10, width: 40, decoration: BoxDecoration(color: Colors.grey.shade50, borderRadius: BorderRadius.circular(20)))),
+                          const Expanded(child: ProductDetails()),
+                        ],
+                      ));
                     },
                     child: Column(
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 10, right: 10, top: 10),
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.2,
-                                    width:
-                                        MediaQuery.of(context).size.height * 0.2,
-                                    child: Image.network(
-                                      cartController.productList[index].imageUrl,
-                                      fit: BoxFit.contain,
-                                    )),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 10),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          cartController.productList[index].title,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
-                                        Text(
-                                          "\n${cartController.productList[index].description}",
-                                          maxLines: 4,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Text(
-                                            "\n\$ ${cartController.productList[index].price}"),
-                                      ]
-                                      // contentPadding: const EdgeInsets.all(10),
-                                      // shape: ,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          ProductCard(product: cartController.productList[index]),
                           Row(
                             children: [
                               Expanded(child: SizedBox()),
@@ -111,3 +83,5 @@ class HomeView extends StatelessWidget {
     );
   }
 }
+
+

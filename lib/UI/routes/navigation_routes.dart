@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:kev_commerce/UI/pages/cart.dart';
 import 'package:kev_commerce/UI/pages/home.dart';
 import 'package:kev_commerce/UI/pages/product_deteails.dart';
+import 'package:kev_commerce/domain/models/product.dart';
 
 class DeliveryRouteName {
   static const String home = '/';
@@ -12,7 +13,7 @@ class DeliveryRouteName {
 class DeliveryPage {
   static final pages = [
     GetPage(name: DeliveryRouteName.home, page: ()=> const HomeView()),
-    GetPage(name: DeliveryRouteName.detailPage, page: ()=> const ProductDetails()),
-    GetPage(name: DeliveryRouteName.cart, page: ()=> const Cart()),
+    GetPage(name: DeliveryRouteName.detailPage, page: ()=> ProductDetails()),
+    GetPage(name: DeliveryRouteName.cart, page: ()=> const CartView()),
   ];
 }

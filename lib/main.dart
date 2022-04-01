@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Kev Commerce',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
       initialRoute: DeliveryRouteName.home,
       getPages: DeliveryPage.pages,
