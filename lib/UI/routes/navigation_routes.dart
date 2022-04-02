@@ -13,7 +13,7 @@ class DeliveryRouteName {
 class DeliveryPage {
   static final pages = [
     GetPage(name: DeliveryRouteName.home, page: ()=> const HomeView()),
-    GetPage(name: DeliveryRouteName.detailPage, page: ()=> ProductDetails()),
+    GetPage(name: DeliveryRouteName.detailPage, page: ()=> ProductDetailsView()),
     GetPage(name: DeliveryRouteName.cart, page: ()=> const CartView()),
   ];
 }

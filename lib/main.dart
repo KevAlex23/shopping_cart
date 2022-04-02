@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kev_commerce/UI/pages/home.dart';
+
+
 import 'package:kev_commerce/UI/routes/navigation_routes.dart';
+import 'package:kev_commerce/const/style_const.dart';
 import 'package:kev_commerce/controllers/main_binding.dart';
 
 void main() {
@@ -19,7 +21,13 @@ class MyApp extends StatelessWidget {
       title: 'Kev Commerce',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: primaryColor,
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.all<TextStyle>(
+              const TextStyle(color: Colors.white),
+            ),
+          ),)
       ),
       initialRoute: DeliveryRouteName.home,
       getPages: DeliveryPage.pages,

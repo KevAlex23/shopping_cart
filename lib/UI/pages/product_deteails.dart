@@ -1,25 +1,79 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kev_commerce/UI/widget/product_card.dart';
+import 'package:get/get.dart';
+import 'package:kev_commerce/UI/widget/tag_widget.dart';
+import 'package:kev_commerce/const/style_const.dart';
+import 'package:kev_commerce/controllers/cart_controller.dart';
 import 'package:kev_commerce/domain/models/product.dart';
 
-class ProductDetails extends StatelessWidget {
-  const ProductDetails({Key? key}) : super(key: key);
+class ProductDetailsView extends GetWidget<CartController> {
+  const ProductDetailsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    Product product = controller.productList.first;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        margin: const EdgeInsets.all(0),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-          color: Colors.grey.shade50
-        ),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+            color: Colors.grey.shade50),
         child: Column(
           children: [
+            
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  child: Image.network(product.imageUrl),
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text(
+                        product.title,
+                        style: titleTextStyle,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(product.description, style: contentTextStyle,)
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.star_border_rounded,color: Colors.amberAccent),
+                        Text(" ${product.rating.rate}")
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.group),
+                        Text(" ${product.rating.count}"),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
             const SizedBox(height: 10,),
-            ProductCard(product: Product(id: "id".toString(), title: "title", price: double.tryParse("0.1".toString())!, description: "description", category: "category", imageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg")),  
-            Center(child: Text("Cart"),),
-            ElevatedButton(onPressed: (){}, child: Text("datas"))
+            Row(children: [
+              TagWidget(category: product.category),
+              const Expanded(child: SizedBox()),
+              Text("\$ ${product.price}", style: titleTextStyle,)
+            ],),
+
           ],
         ),
       ),
