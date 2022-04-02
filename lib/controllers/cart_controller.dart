@@ -20,5 +20,15 @@ class CartController extends GetxController{
     return apiRepository.getproducts();
   }
 
+  Product findProductByID(int id){
+    late Product productAux;
+    try {
+      productAux = productList.firstWhere((element) => element.id==id);
+    } on StateError catch(e)  {
+      Get.snackbar("Error", e.message);
+    }
+    return productAux;
+  }
+
 
 }

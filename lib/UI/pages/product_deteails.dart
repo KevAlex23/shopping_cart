@@ -11,7 +11,9 @@ class ProductDetailsView extends GetWidget<CartController> {
 
   @override
   Widget build(BuildContext context) {
-    Product product = controller.productList.first;
+    //arguments get the data provide by the url to use Deep Links
+    final arguments = (ModalRoute.of(context)?.settings.arguments);
+    Product product = controller.findProductByID(arguments as int);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -21,7 +23,6 @@ class ProductDetailsView extends GetWidget<CartController> {
             color: Colors.grey.shade50),
         child: Column(
           children: [
-            
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -40,7 +41,12 @@ class ProductDetailsView extends GetWidget<CartController> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(product.description, style: contentTextStyle,)
+                      Container(
+                        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height*0.2),
+                        // color: Colors.redAccent,
+                        child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Text(product.description, style: contentTextStyle,)))
                     ],
                   ),
                 )

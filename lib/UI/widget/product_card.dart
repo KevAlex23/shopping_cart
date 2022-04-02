@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kev_commerce/UI/pages/product_deteails.dart';
+import 'package:kev_commerce/UI/routes/navigation_routes.dart';
 import 'package:kev_commerce/const/style_const.dart';
 import 'package:kev_commerce/domain/models/product.dart';
 
@@ -22,6 +23,7 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           onTap: () {
             showModalBottomSheet(
+              routeSettings: RouteSettings(arguments: product.id),
                 isScrollControlled: true,
                 backgroundColor: Colors.transparent,
                 context: context,
@@ -45,6 +47,11 @@ class ProductCard extends StatelessWidget {
                                     color: Colors.grey.shade50,
                                     borderRadius: BorderRadius.circular(20)))),
                         const Expanded(child: ProductDetailsView()),
+                        // FutureBuilder(
+                        //   future: Navigator.pushNamed(context, DeliveryRouteName.detailPage),
+                        //   builder: (_, AsyncSnapshot snap){
+                        //   return snap.data!;
+                        // }),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               primary: primaryColor,

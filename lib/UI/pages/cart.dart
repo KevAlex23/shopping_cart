@@ -16,7 +16,7 @@ class CartView extends GetWidget<CartController> {
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20))),
-        title: const Text("My Cart"),
+        title: const Text("My cart"),
       ),
       body: SafeArea(
         child: Column(
@@ -120,7 +120,7 @@ class CartView extends GetWidget<CartController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
-                                Text("Buy"),
+                                Text("Chekout"),
                               ],
                             )),
                       ],

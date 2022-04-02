@@ -4,7 +4,7 @@ class Product {
   // Product's variables all required.
 
   //id: identify the product
-  final String id;
+  final int id;
   //title: the name of the product
   final String title;
   //price: the price of the prodyct

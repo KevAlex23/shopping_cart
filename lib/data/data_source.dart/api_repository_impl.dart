@@ -21,7 +21,7 @@ class ApiRepositoryImpl extends ApiRepositoryInterface {
       //add entity from the response to the auxiliary list
       for (var item in jsonData) {
         productsListAux.add(
-          Product(id: item["id"].toString(), title: item["title"], price: double.tryParse(item["price"].toString())!, description: item["description"]??"", category: item["category"]??"", imageUrl: item["image"], rating: Rating(rate: double.parse(item["rating"]["rate"].toString()), count: item["rating"]["count"]??0))
+          Product(id: int.parse(item["id"].toString()), title: item["title"], price: double.tryParse(item["price"].toString())!, description: item["description"]??"", category: item["category"]??"", imageUrl: item["image"], rating: Rating(rate: double.parse(item["rating"]["rate"].toString()), count: item["rating"]["count"]??0))
         );
       }
     }else{
