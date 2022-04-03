@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:kev_commerce/UI/pages/product_deteails.dart';
-import 'package:kev_commerce/UI/routes/navigation_routes.dart';
 import 'package:kev_commerce/const/style_const.dart';
+import 'package:kev_commerce/controllers/cart_controller.dart';
 import 'package:kev_commerce/domain/models/product.dart';
 
 class ProductCard extends StatelessWidget {
@@ -9,10 +11,12 @@ class ProductCard extends StatelessWidget {
     Key? key,
     required this.product,
     required this.actions,
+    required this.controller,
   }) : super(key: key);
 
   final Product product;
   final Widget actions;
+  final CartController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           onTap: () {
             showModalBottomSheet(
-              routeSettings: RouteSettings(arguments: product.id),
+                routeSettings: RouteSettings(arguments: product.id),
                 isScrollControlled: true,
                 backgroundColor: Colors.transparent,
                 context: context,
@@ -35,7 +39,7 @@ class ProductCard extends StatelessWidget {
                           onTap: () => Navigator.pop(context),
                           child: SizedBox(
                             width: double.maxFinite,
-                            height: MediaQuery.of(context).size.height * 0.3,
+                            height:MediaQuery.of(context).size.height<MediaQuery.of(context).size.width? 10: MediaQuery.of(context).size.height * 0.3,
                           ),
                         ),
                         Center(
@@ -46,12 +50,7 @@ class ProductCard extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     color: Colors.grey.shade50,
                                     borderRadius: BorderRadius.circular(20)))),
-                        const Expanded(child: ProductDetailsView()),
-                        // FutureBuilder(
-                        //   future: Navigator.pushNamed(context, DeliveryRouteName.detailPage),
-                        //   builder: (_, AsyncSnapshot snap){
-                        //   return snap.data!;
-                        // }),
+                        const Expanded(child: SingleChildScrollView(child: Expanded(child: ProductDetailsView()))),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               primary: primaryColor,
@@ -69,7 +68,28 @@ class ProductCard extends StatelessWidget {
                                 )
                               ],
                             ),
-                            onPressed: () {})
+                            onPressed: () {
+                              controller.addProductToMyCart(product).then(
+                                  (value) => value != "done"
+                                      ? Get.snackbar("Add error", value, icon: const Icon(
+                                              Icons
+                                                  .warning_rounded,
+                                              color: Colors.amber),
+                                          borderWidth: 2,
+                                          borderColor: Colors.amber,
+                                          backgroundColor:
+                                              cardBackgroundColor)
+                                      : Get.snackbar("Add to cart",
+                                          "The product ${product.title} was successfully added!",
+                                          icon: Icon(
+                                              Icons
+                                                  .check_circle_outline_rounded,
+                                              color: primaryColor),
+                                          borderWidth: 2,
+                                          borderColor: primaryColor,
+                                          backgroundColor:
+                                              cardBackgroundColor));
+                            })
                       ],
                     ));
           },
@@ -113,7 +133,9 @@ class ProductCard extends StatelessWidget {
                               maxLines: 4,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               children: [
                                 Column(

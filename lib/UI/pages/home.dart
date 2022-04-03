@@ -13,9 +13,9 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartController =
-        Get.put<CartController>(CartController(apiRepository: Get.find()));
+        Get.put<CartController>(CartController(Get.find(), Get.find()));
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20))),
@@ -27,7 +27,7 @@ class HomeView extends StatelessWidget {
           IconButton(
               onPressed: () {
                 Navigator.pushNamed(
-                    context, DeliveryRouteName.cart, arguments: <String,int>{"proof":2});
+                    context, DeliveryRouteName.cart);
               },
               icon: const Icon(Icons.shopping_cart_outlined))
         ],
@@ -35,14 +35,14 @@ class HomeView extends StatelessWidget {
       body: Obx(() {
         return cartController.productList.isEmpty
             ? const Center(
-                child: Text("Empty"),
+                child: CircularProgressIndicator(),
               )
             : ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: cartController.productList.length,
                 itemBuilder: (context, index) {
-                  int count = 0;
                   return ProductCard(
+                    controller: cartController,
                       product: cartController.productList[index],
                       actions: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -61,7 +61,28 @@ class HomeView extends StatelessWidget {
                               )
                             ],
                           ),
-                          onPressed: () {}));
+                          onPressed: () {
+                            cartController.addProductToMyCart(cartController.productList[index]).then(
+                                  (value) => value != "done"
+                                      ? Get.snackbar("Add error", value, icon: const Icon(
+                                              Icons
+                                                  .warning_rounded,
+                                              color: Colors.amber),
+                                          borderWidth: 2,
+                                          borderColor: Colors.amber,
+                                          backgroundColor:
+                                              cardBackgroundColor)
+                                      : Get.snackbar("Add to cart",
+                                          "The product ${cartController.productList[index].title} was successfully added!",
+                                          icon: Icon(
+                                              Icons
+                                                  .check_circle_outline_rounded,
+                                              color: primaryColor),
+                                          borderWidth: 2,
+                                          borderColor: primaryColor,
+                                          backgroundColor:
+                                              cardBackgroundColor));;
+                          }));
                 });
       }),
     );

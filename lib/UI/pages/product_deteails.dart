@@ -6,11 +6,12 @@ import 'package:kev_commerce/const/style_const.dart';
 import 'package:kev_commerce/controllers/cart_controller.dart';
 import 'package:kev_commerce/domain/models/product.dart';
 
-class ProductDetailsView extends GetWidget<CartController> {
+class ProductDetailsView extends StatelessWidget {
   const ProductDetailsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<CartController>();
     //arguments get the data provide by the url to use Deep Links
     final arguments = (ModalRoute.of(context)?.settings.arguments);
     Product product = controller.findProductByID(arguments as int);
@@ -43,9 +44,8 @@ class ProductDetailsView extends GetWidget<CartController> {
                       ),
                       Container(
                         constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height*0.2),
-                        // color: Colors.redAccent,
                         child: SingleChildScrollView(
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           child: Text(product.description, style: contentTextStyle,)))
                     ],
                   ),

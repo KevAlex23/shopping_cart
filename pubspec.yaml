@@ -34,7 +34,7 @@ dependencies:
   #This package contains a set of high-level functions and classes that make it easy to consume HTTP resources.
   http: ^0.13.3
   #GetX state manager - dependencies manager.
-  get: ^4.3.8
+  get: ^4.1.4
   #secure_storage works with json files to save data in local storage.
   flutter_secure_storage: ^5.0.2
   # The following adds the Cupertino Icons font to your application.

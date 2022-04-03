@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 //Colors
-Color backgroundColor = Colors.grey.shade200;
+Color scaffoldBackgroundColor = Colors.grey.shade200;
+Color cardBackgroundColor = Colors.grey.shade50;
 MaterialColor primaryColor = const MaterialColor(0xFF6ae2ca, {
   50: Color(0xFFffffff),
   100: Color(0xFFe6faf6),
