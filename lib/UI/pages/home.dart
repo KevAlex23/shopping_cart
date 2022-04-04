@@ -24,6 +24,7 @@ class HomeView extends StatelessWidget {
           style: appBarTextStyle,
         ),
         actions: [
+          //this widget Obx is a observable of GetX and works with .obs variable like 'cartController.myCartList' to update only what is inside of it
           Obx(
             ()=> IconButton(
               key: const Key("btnNavigateToMyCart"),

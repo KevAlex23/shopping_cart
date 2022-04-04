@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:kev_commerce/UI/pages/product_deteails.dart';
+import 'package:kev_commerce/UI/pages/product_details.dart';
 import 'package:kev_commerce/const/style_const.dart';
 import 'package:kev_commerce/controllers/cart_controller.dart';
 import 'package:kev_commerce/domain/models/product.dart';

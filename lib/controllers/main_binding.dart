@@ -4,7 +4,7 @@ import 'package:kev_commerce/data/local_repository_impl.dart';
 import 'package:kev_commerce/domain/repository/api_repository.dart';
 import 'package:kev_commerce/domain/repository/local_repository.dart';
 
-//Dependency injection 
+//Dependency injection like singleton
 class MainBinding extends Bindings {
   @override
   void dependencies() {

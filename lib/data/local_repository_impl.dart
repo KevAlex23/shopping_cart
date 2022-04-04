@@ -9,11 +9,12 @@ class LocalRepositoryImpl extends LocalRepositoryInterface {
   // IOSOptions _getIOSOptions() => IOSOptions(
   //       accountName: _getAccountName(),
   //     );
-
+  //android config to local storage package
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );
 
+     
   @override
   Future<List<CartAux>> getMyCartProducts() async {
     List<CartAux> productsAuxList = [];
@@ -26,16 +27,12 @@ class LocalRepositoryImpl extends LocalRepositoryInterface {
   }
 
   @override
-  addProductToMyCart(Product product) async {
-    int count = await cartContainsProduct(product.id.toString());
-    count++;
+  addProductToMyCart(Product product, int count) async {
     _cart.write(key: product.id.toString(), value: count.toString(), aOptions: _getAndroidOptions());
   }
 
   @override
-  Future<void> subtractProductFromMyCart(Product product) async {
-    int count = await cartContainsProduct(product.id.toString());
-    count--;
+  Future<void> subtractProductFromMyCart(Product product, int count) async {
     count <= 0
         ? _cart.delete(key: product.id.toString(),aOptions: _getAndroidOptions())
         : _cart.write(key: product.id.toString(), value: count.toString(), aOptions: _getAndroidOptions());

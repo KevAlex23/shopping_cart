@@ -11,7 +11,9 @@ class CartController extends GetxController {
   final LocalRepositoryInterface _localRespository;
   CartController(this._apiRepository, this._localRespository);
 
+  //auxiliary list of all prodcuts
   RxList<Product> productList = <Product>[].obs;
+  // auxiliary list of the products of my cart
   RxList<Cart> myCartList = <Cart>[].obs;
 
   RxDouble subTotal = 0.0.obs;
@@ -24,10 +26,12 @@ class CartController extends GetxController {
     super.onInit();
   }
 
+  //Get the products from the api repository
   Future<List<Product>> getProducts() async {
     productList.value = await _apiRepository.getproducts();
     return _apiRepository.getproducts();
   }
+
 
   Product findProductByID(int id) {
     late Product productAux;
@@ -39,6 +43,7 @@ class CartController extends GetxController {
     return productAux;
   }
 
+  //get the products of my cart 
   Future<RxList<Cart>> getMyCartProducts() async {
     List<Cart> myCart = [];
     List<CartAux> myCartAuxList = [];
@@ -54,11 +59,14 @@ class CartController extends GetxController {
     return myCartList;
   }
 
+  //add a new product to my cart in local storage 
   Future<String> addProductToMyCart(Product product) async {
     String response = "";
+    int count = await _localRespository.cartContainsProduct(product.id.toString());
+    count++;
     try {
       await _localRespository
-          .addProductToMyCart(product)
+          .addProductToMyCart(product, count)
           .whenComplete(() => getMyCartProducts());
       calculateMyCartSubtotal();
       response = "done";
@@ -68,13 +76,17 @@ class CartController extends GetxController {
     return response;
   }
 
-  subtractProductFromMyCart(Product product) {
+  //substrac a product of my cart in local storage 
+  subtractProductFromMyCart(Product product) async {
+    int count = await _localRespository.cartContainsProduct(product.id.toString());
+    count--;
     _localRespository
-        .subtractProductFromMyCart(product)
+        .subtractProductFromMyCart(product, count)
         .whenComplete(() => getMyCartProducts());
     calculateMyCartSubtotal();
   }
 
+  //delete all the products count of the same type of my cart in local storage 
   deleteProductFromMyCart(Product product) {
     _localRespository
         .deleteProductFromMyCart(product)
@@ -82,6 +94,7 @@ class CartController extends GetxController {
     calculateMyCartSubtotal();
   }
 
+  //delete all products of my cart in local storage 
   deleteAllProductsMyCart() {
     _localRespository
         .deleteAllProductsMyCart()
@@ -89,6 +102,7 @@ class CartController extends GetxController {
     calculateMyCartSubtotal();
   }
 
+  //calculate the subtotal of all the products of my cart
   calculateMyCartSubtotal() {
     double subTotalAux = 0.0;
     for (var item in myCartList) {

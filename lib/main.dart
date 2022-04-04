@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
             ),
           ),)
       ),
+      //this the initial page HomeView()
       initialRoute: DeliveryRouteName.home,
       getPages: DeliveryPage.pages,
       initialBinding: MainBinding(),
