@@ -39,7 +39,7 @@ class CartController extends GetxController {
     return productAux;
   }
 
-  getMyCartProducts() async {
+  Future<RxList<Cart>> getMyCartProducts() async {
     List<Cart> myCart = [];
     List<CartAux> myCartAuxList = [];
     myCartAuxList.addAll(await _localRespository.getMyCartProducts());
@@ -49,6 +49,7 @@ class CartController extends GetxController {
           count: int.parse(item.count)));
     }
     myCartList.value = myCart;
+
     calculateMyCartSubtotal();
     return myCartList;
   }
@@ -57,11 +58,11 @@ class CartController extends GetxController {
     String response = "";
     try {
       await _localRespository
-        .addProductToMyCart(product)
-        .whenComplete(() => getMyCartProducts());
-        calculateMyCartSubtotal();
-        response = "done";
-    }on PlatformException catch (e) {
+          .addProductToMyCart(product)
+          .whenComplete(() => getMyCartProducts());
+      calculateMyCartSubtotal();
+      response = "done";
+    } on PlatformException catch (e) {
       response = e.message!;
     }
     return response;
@@ -71,18 +72,20 @@ class CartController extends GetxController {
     _localRespository
         .subtractProductFromMyCart(product)
         .whenComplete(() => getMyCartProducts());
-        calculateMyCartSubtotal();
+    calculateMyCartSubtotal();
   }
 
   deleteProductFromMyCart(Product product) {
     _localRespository
         .deleteProductFromMyCart(product)
         .whenComplete(() => getMyCartProducts());
-        calculateMyCartSubtotal();
+    calculateMyCartSubtotal();
   }
 
-  deleteAllProductsMyCart(){
-    _localRespository.deleteAllProductsMyCart().whenComplete(() => getMyCartProducts());
+  deleteAllProductsMyCart() {
+    _localRespository
+        .deleteAllProductsMyCart()
+        .whenComplete(() => getMyCartProducts());
     calculateMyCartSubtotal();
   }
 

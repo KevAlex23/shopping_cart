@@ -31,67 +31,74 @@ class ProductCard extends StatelessWidget {
                 isScrollControlled: true,
                 backgroundColor: Colors.transparent,
                 context: context,
-                builder: (_) => Column(
-                      children: [
-                        InkWell(
-                          splashFactory: NoSplash.splashFactory,
-                          highlightColor: Colors.transparent,
-                          onTap: () => Navigator.pop(context),
-                          child: SizedBox(
-                            width: double.maxFinite,
-                            height:MediaQuery.of(context).size.height<MediaQuery.of(context).size.width? 10: MediaQuery.of(context).size.height * 0.3,
-                          ),
-                        ),
-                        Center(
-                            child: Container(
-                                margin: const EdgeInsets.all(10),
-                                height: 10,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.shade50,
-                                    borderRadius: BorderRadius.circular(20)))),
-                        const Expanded(child: SingleChildScrollView(child: Expanded(child: ProductDetailsView()))),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: primaryColor,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                      bottom: Radius.circular(0))),
+                builder: (_) => OrientationBuilder(
+                  builder: (context, orientation) {
+                    return Column(
+                          children: [
+                            InkWell(
+                              splashFactory: NoSplash.splashFactory,
+                              highlightColor: Colors.transparent,
+                              onTap: () => Navigator.pop(context),
+                              child: SizedBox(
+                                width: double.maxFinite,
+                                height:MediaQuery.of(context).size.height<MediaQuery.of(context).size.width? 10: MediaQuery.of(context).size.height * 0.3,
+                              ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Add to cart",
-                                  style: buttonTextStyle,
-                                )
-                              ],
-                            ),
-                            onPressed: () {
-                              controller.addProductToMyCart(product).then(
-                                  (value) => value != "done"
-                                      ? Get.snackbar("Add error", value, icon: const Icon(
-                                              Icons
-                                                  .warning_rounded,
-                                              color: Colors.amber),
-                                          borderWidth: 2,
-                                          borderColor: Colors.amber,
-                                          backgroundColor:
-                                              cardBackgroundColor)
-                                      : Get.snackbar("Add to cart",
-                                          "The product ${product.title} was successfully added!",
-                                          icon: Icon(
-                                              Icons
-                                                  .check_circle_outline_rounded,
-                                              color: primaryColor),
-                                          borderWidth: 2,
-                                          borderColor: primaryColor,
-                                          backgroundColor:
-                                              cardBackgroundColor));
-                            })
-                      ],
-                    ));
+                            const SizedBox(height: 10,),
+                            Center(
+                                child: Container(
+                                    margin: const EdgeInsets.all(10),
+                                    height: 10,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade50,
+                                        borderRadius: BorderRadius.circular(20)))),
+                            // orientation == Orientation.portrait? const  Expanded(child: ProductDetailsView()): const Expanded(child: Card(child: Text("data"),)),
+                            const  Expanded(child: ProductDetailsView()),
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: primaryColor,
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                          bottom: Radius.circular(0))),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Add to cart",
+                                      style: buttonTextStyle,
+                                    )
+                                  ],
+                                ),
+                                onPressed: () {
+                                  controller.addProductToMyCart(product).then(
+                                      (value) => value != "done"
+                                          ? Get.snackbar("Add error", value, icon: const Icon(
+                                                  Icons
+                                                      .warning_rounded,
+                                                  color: Colors.amber),
+                                              borderWidth: 2,
+                                              borderColor: Colors.amber,
+                                              backgroundColor:
+                                                  cardBackgroundColor)
+                                          : Get.snackbar("Add to cart",
+                                              "The product ${product.title} was successfully added!",
+                                              icon: Icon(
+                                                  Icons
+                                                      .check_circle_outline_rounded,
+                                                  color: primaryColor),
+                                                  duration: const Duration(seconds: 1),
+                                              borderWidth: 2,
+                                              borderColor: primaryColor,
+                                              backgroundColor:
+                                                  cardBackgroundColor));
+                                })
+                          ],
+                        );
+                  }
+                ));
           },
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -123,14 +130,14 @@ class ProductCard extends StatelessWidget {
                           children: [
                             Text(
                               product.title,
-                              maxLines: 2,
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             Text(
                               "\n${product.description}",
-                              maxLines: 4,
+                              maxLines: MediaQuery.of(context).size.height<MediaQuery.of(context).size.width?2:4,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(
@@ -150,7 +157,7 @@ class ProductCard extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const Expanded(child: SizedBox()),
+                                const Spacer(),
                                 Text(
                                   "\$ ${product.price}",
                                   style: titleTextStyle,
@@ -158,8 +165,6 @@ class ProductCard extends StatelessWidget {
                               ],
                             ),
                           ]
-                          // contentPadding: const EdgeInsets.all(10),
-                          // shape: ,
                           ),
                     ),
                   ),

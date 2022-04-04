@@ -15,8 +15,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //insert global controller
-    // Get.put(CartController());
     return GetMaterialApp(
       title: 'Kev Commerce',
       debugShowCheckedModeBanner: false,

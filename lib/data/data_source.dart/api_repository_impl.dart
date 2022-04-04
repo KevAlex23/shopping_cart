@@ -9,12 +9,18 @@ import 'package:kev_commerce/domain/repository/api_repository.dart';
 
 
 class ApiRepositoryImpl extends ApiRepositoryInterface {
+
+  String url = "https://fakestoreapi.com/products";
+
+  Future<http.Response> getApiSourceResponse(String url) async {
+    final response = await http.get(Uri.parse(url));
+    return response;
+  }
+
   @override
   Future<List<Product>> getproducts() async {
-    var url = "https://fakestoreapi.com/products";
     List<Product> productsListAux = [];
-    final response = await http.get(Uri.parse(url));
-
+    http.Response response = await getApiSourceResponse(url);
     if(response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
@@ -25,7 +31,7 @@ class ApiRepositoryImpl extends ApiRepositoryInterface {
         );
       }
     }else{
-      //show error if response status code != 200
+      //show error if response status code != 200. this getProducts returns a List<Products> no a String
       Get.snackbar("Error getting data", "Connexion failed");
     }
     return productsListAux;

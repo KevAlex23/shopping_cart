@@ -43,11 +43,12 @@ class LocalRepositoryImpl extends LocalRepositoryInterface {
 
   @override
   Future<int> cartContainsProduct(String productID) async {
-    int count = 0;
-    String? countAux =
-        await _cart.read(key: productID, aOptions: _getAndroidOptions());
-    if (countAux != null) count = int.parse(countAux);
-    return count;
+    String countAux = "0";
+    bool val = await _cart.containsKey(key: productID, aOptions: _getAndroidOptions());
+    if(val){
+      countAux = (await _cart.read(key: productID, aOptions: _getAndroidOptions()))!;
+    }
+    return int.parse(countAux);
   }
 
   @override

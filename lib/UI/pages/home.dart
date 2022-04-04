@@ -24,18 +24,35 @@ class HomeView extends StatelessWidget {
           style: appBarTextStyle,
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                    context, DeliveryRouteName.cart);
-              },
-              icon: const Icon(Icons.shopping_cart_outlined))
+          Obx(
+            ()=> IconButton(
+              key: const Key("btnNavigateToMyCart"),
+                onPressed: () {
+                  Navigator.pushNamed(
+                      context, DeliveryRouteName.cart);
+                },
+                icon: Stack(
+                  fit: StackFit.expand,
+              children: [
+                Icon(cartController.myCartList.isEmpty?Icons.shopping_cart_outlined: Icons.add_shopping_cart_rounded),
+                 cartController.myCartList.isEmpty?const SizedBox(): Align(
+                  alignment: Alignment.topRight,
+                  child: CircleAvatar(radius: 7, backgroundColor: Colors.redAccent.shade200,),)
+              ],
+            )),
+          )
         ],
       ),
       body: Obx(() {
         return cartController.productList.isEmpty
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CircularProgressIndicator(),
+                    Text("\nLoading products...")
+                  ],
+                ),
               )
             : ListView.builder(
                 physics: const BouncingScrollPhysics(),
@@ -74,6 +91,7 @@ class HomeView extends StatelessWidget {
                                               cardBackgroundColor)
                                       : Get.snackbar("Add to cart",
                                           "The product ${cartController.productList[index].title} was successfully added!",
+                                          duration: const Duration(seconds: 1),
                                           icon: Icon(
                                               Icons
                                                   .check_circle_outline_rounded,
