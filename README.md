@@ -33,7 +33,7 @@ Trunk Based Development
 ![Trunk Based Development](https://uploads.toptal.io/blog/image/129304/toptal-blog-image-1551794413174-f4139c4be533dc592d49f9a0bcc330f0.png)
 
 ## Getting Started
-This project was developed on Flutter v2.5.0 (stable)
+This project was developed on Flutter v2.10.5 (stable)
 ```
 To run the project:
     |-1 Download the zip code
